@@ -13,17 +13,17 @@ const PORT = process.env.PORT || 3000
 const db = require('./config/db')
 //prueba de conección
 db.sequelize
-    .authenticate()
-    .then(() => {
-        console.log('Connection successfully.')
-    })
-    .catch(err => {
-        console.error('Unable to connect to the database:', err)
-    })
+	.authenticate()
+	.then(() => {
+		console.log('Connection successfully.')
+	})
+	.catch(err => {
+		console.error('Unable to connect to the database:', err)
+	})
 
-// db.sequelize.sync().then(() => {
-// 	console.log('Connected...')
-// })
+db.sequelize.sync({ force: true }).then(() => {
+	console.log('Connected...')
+})
 
 /*
  ! OPCIONES DE APP
@@ -35,9 +35,9 @@ app.set('port', PORT)
  ! MIDDLEWARES
 */
 var corsOptions = {
-    origin: 'http://localhost:8080',
-    optionsSuccessStatus: 200,
-    credentials: true
+	origin: 'http://localhost:8080',
+	optionsSuccessStatus: 200,
+	credentials: true
 }
 app.use(cors(corsOptions))
 app.use(bodyParser.json())
