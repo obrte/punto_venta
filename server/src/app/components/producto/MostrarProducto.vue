@@ -15,25 +15,17 @@
         <tbody>
             <tr v-for="(producto, index) in productos">
                 <td class="text-center">{{index + 1}}</td>
-                <td>{{producto.codigo}}</td>
-                <td>{{producto.nombre}}</td>
-                <td class="text-justify">{{producto.descripcion}}</td>
-                <td>{{producto.stock}}</td>
+                <td>{{productos.codigo}}</td>
+                <td>{{productos.nombre}}</td>
+                <td class="text-justify">{{productos.descripcion}}</td>
+                <td>{{productos.stock}}</td>
                 <td>
                     <div class="row justify-content-center align-items-center mx-1">
                         <div class="d-flex">
                             <!-- Boton Eliminar -->
-                            <i
-                                class="fas fa-times-circle btn btn-danger mx-1"
-                                title="Eliminar Producto"
-                                @click="eliminarProducto(producto.codigo, index)"
-                            />
+                            <i class="fas fa-times-circle btn btn-danger mx-1" title="Eliminar Producto" @click="eliminarProducto(producto.codigo, index)" />
                             <!-- Boton Editar -->
-                            <i
-                                class="fas fa-edit btn btn-info"
-                                title="Editar Producto"
-                                @click="editarProducto(producto.codigo)"
-                            />
+                            <i class="fas fa-edit btn btn-info" title="Editar Producto" @click="editarProducto(producto.codigo)" />
                         </div>
                     </div>
                 </td>
@@ -45,44 +37,49 @@
 
 <script>
 export default {
-  data() {
-    return {
-      productos: []
-    };
-  },
-  created() {
-    this.getProductos();
-  },
-  methods: {
-    getProductos() {
-      this.axios
-        .get("/productos")
-        .then(res => {
-          this.productos = res.data;
-        })
-        .catch(err => console.log(err));
+    data() {
+        return {
+            productos: []
+        };
     },
-    eliminarProducto(id, ind) {
-      const respuesta = confirm(
-        "Estas seguro que deseas eliminar este Producto?"
-      );
-      if (respuesta) {
-        this.axios
-          .delete("/productos/" + id)
-          .then(res => {
-            this.productos.splice(ind, 1);
-          })
-          .catch(err => console.log(err));
-      }
+    created() {
+        this.getProductos();
     },
-    editarProducto(id) {
-      this.$router.replace({
-        name: "EditarProducto",
-        params: {
-          id: id
+    methods: {
+        getProductos() {
+            this.axios
+                .get("/productos")
+                .then(res => {
+                  console.log(res.data)
+                    if (res.data.status == 'Alerta') {
+                        alert(res.data.msg)
+                    } else {
+                        this.productos = res.data
+                    }
+                })
+                .catch(err => console.log(err));
+        },
+        eliminarProducto(id, ind) {
+            const respuesta = confirm(
+                "Estas seguro que deseas eliminar este Producto?"
+            );
+            if (respuesta) {
+                this.axios
+                    .delete("/productos/" + id)
+                    .then(res => {
+                        this.productos.splice(ind, 1);
+                    })
+                    .catch(err => console.log(err));
+            }
+        },
+        editarProducto(id) {
+            this.$router.replace({
+                name: "EditarProducto",
+                params: {
+                    id: id
+                }
+            });
         }
-      });
     }
-  }
 };
 </script>

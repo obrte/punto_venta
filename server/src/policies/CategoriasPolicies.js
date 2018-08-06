@@ -8,7 +8,7 @@ const schema = {
 	descripcion: Joi.string().required()
 }
 
-const datosCategoria = (req) => {
+const datosCategoria = req => {
 	return {
 		nombre: req.body.categoria.nombre,
 		descripcion: req.body.categoria.descripcion
@@ -17,18 +17,17 @@ const datosCategoria = (req) => {
 
 exports.guardar = (req, res, next) => {
 	const categoria = datosCategoria(req)
-	const {
-		error
-	} = Joi.validate(categoria, schema)
+	const { error } = Joi.validate(categoria, schema)
 	if (error) {
 		mensajes.switchError(error, res)
 	} else {
-		db.categorias.findOne({
-			where: {
-				nombre: categoria.nombre,
-				descripcion: categoria.descripcion
-			}
-		})
+		db.categorias
+			.findOne({
+				where: {
+					nombre: categoria.nombre,
+					descripcion: categoria.descripcion
+				}
+			})
 			.then(conflictoCategoria => {
 				if (conflictoCategoria) {
 					res.status(400).json({
@@ -43,21 +42,20 @@ exports.guardar = (req, res, next) => {
 
 exports.actualizar = (req, res, next) => {
 	const categoria = datosCategoria(req)
-	const {
-		error
-	} = Joi.validate(categoria, schema)
+	const { error } = Joi.validate(categoria, schema)
 	if (error) {
 		mensajes.switchError(error, res)
 	} else {
-		db.categorias.findOne({
-			where: {
-				nombre: categoria.nombre,
-				descripcion: categoria.descripcion,
-				idCategoria: {
-					[Op.ne]: categoria.idCategoria
+		db.categorias
+			.findOne({
+				where: {
+					nombre: categoria.nombre,
+					descripcion: categoria.descripcion,
+					idCategoria: {
+						[Op.ne]: categoria.idCategoria
+					}
 				}
-			}
-		})
+			})
 			.then(conflictoCategoria => {
 				if (conflictoCategoria) {
 					res.status(400).json({

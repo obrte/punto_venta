@@ -7,12 +7,12 @@ import axios from 'axios'
 Vue.use(VueAxios, axios)
 
 import App from './App.vue'
-import MostrarProductos from './producto/MostrarProducto.vue'
-import NuevoProducto from './producto/NuevoProducto.vue'
-import EditarProducto from './producto/EditarProducto.vue'
-import MostrarCategorias from './categoria/MostrarCategorias.vue'
-import NuevaCategoria from './categoria/NuevaCategoria.vue'
-import EditarCategoria from './categoria/EditarCategorias.vue'
+import MostrarProductos from './components/producto/MostrarProducto.vue'
+import NuevoProducto from './components/producto/NuevoProducto.vue'
+import EditarProducto from './components/producto/EditarProducto.vue'
+import MostrarCategorias from './components/categoria/MostrarCategorias.vue'
+import NuevaCategoria from './components/categoria/NuevaCategoria.vue'
+import EditarCategoria from './components/categoria/EditarCategorias.vue'
 
 const routes = [{
 	name: 'MostrarProductos',

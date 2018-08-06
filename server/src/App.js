@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const path = require('path')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const router = require('./routes/index')
@@ -21,9 +22,9 @@ db.sequelize
 		console.error('Unable to connect to the database:', err)
 	})
 
-db.sequelize.sync({ force: true }).then(() => {
-	console.log('Connected...')
-})
+// db.sequelize.sync({ force: true }).then(() => {
+// 	console.log('Connected...')
+// })
 
 /*
  ! OPCIONES DE APP
@@ -47,5 +48,8 @@ app.use(bodyParser.json())
  ! RUTAS
 */
 router(app, db)
+
+//static files
+app.use(express.static(path.join(__dirname, 'public')))
 
 module.exports = app
