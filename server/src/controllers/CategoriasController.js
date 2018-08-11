@@ -33,21 +33,16 @@ exports.categoria = (req, res) => {
 exports.categorias = (req, res) => {
 	db.categorias
 		.findAll({
-			include: [
-				{
-					model: db.productos,
-					attributes: ['nombre', 'descripcion'],
-					as: 'productos'
-				}
-			]
+			include: [{
+				model: db.productos,
+				attributes: ['nombre', 'descripcion'],
+				as: 'productos'
+			}]
 		})
 		.then(categorias => {
-			console.log(categorias.length)
-			if (categorias.length > 0) {
-				console.log('Categorias IF')
+			if (categorias) {
 				res.status(200).json(categorias)
 			} else {
-				console.log('Categorias ELSE')
 				res.status(404).json({
 					status: 'Alerta',
 					msg: 'No hay categorias.'
@@ -55,7 +50,6 @@ exports.categorias = (req, res) => {
 			}
 		})
 		.catch(err => {
-			console.log('CATCH')
 			res.json(err)
 		})
 }

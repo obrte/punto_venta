@@ -19,8 +19,28 @@ const categoria = (id) => {
 	})
 }
 
+const producto = (id) => {
+	return new Promise((resolve, reject) => {
+		db.productos.find({
+			where: {
+				idProducto: id
+			},
+			include: [{
+				model: db.categorias,
+				attributes: ['idCategoria', 'nombre', 'descripcion'],
+				as: 'categoria'
+			}],
+		})
+			.then(productos => {
+				resolve(productos)
+			})
+			.catch((err) => reject(err))
+	})
+}
+
 const buscar = {}
 
 buscar.categoria = categoria
+buscar.producto = producto
 
 module.exports = buscar

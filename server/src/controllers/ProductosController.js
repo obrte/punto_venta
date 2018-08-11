@@ -1,36 +1,52 @@
 const db = require('../config/db')
+const buscar = require('../customFunctions/Buscar')
 
 //POST single
 exports.guardar = (req, res) => {
-	res.json(req)
+	db.productos
+		.create(req.body.producto)
+		.then(producto => {
+			res.status(201).json(producto)
+		})
+		.catch(err => {
+			res.status(400).json({
+				status: 'error',
+				msg: 'Error al crear',
+				error: err
+			})
+		})
 }
 
 // GET one por id
 exports.producto = (req, res) => {
-	res.json(req)
+	buscar.producto(req.params.id)
+		.then(producto => {
+			res.status(200).json(producto)
+		})
+		.catch(err => {
+			res.status(400).json({
+				status: 'Alerta',
+				msg: 'Fallo al buscar',
+				error: err
+			})
+		})
 }
 
 // GET all con TODO
 exports.productos = (req, res) => {
-	console.log('productos')
 	db.productos
 		.findAll({
-			include: [
-				{
-					model: db.categorias,
-					attributes: ['nombre'],
-					as: 'categoria'
-				}
-			]
+			include: [{
+				model: db.categorias,
+				attributes: ['idCategoria', 'nombre', 'descripcion'],
+				as: 'categoria'
+			}]
 		})
 		.then(productos => {
-			console.log(productos)
-			if (productos == []) {
-				console.log('IF')
+			if (productos.length > 0) {
 				res.status(200).json(productos)
 			} else {
-				console.log('ELSE')
-				res.status(404).json({
+				res.status(400).json({
 					status: 'Alerta',
 					msg: 'No hay productos.'
 				})
@@ -43,10 +59,62 @@ exports.productos = (req, res) => {
 
 // PATCH single
 exports.actualizar = (req, res) => {
-	res.json(req)
+	db.productos.update(req.body.producto, {
+		where: {
+			idProducto: req.params.id
+		}
+	})
+		.then(productoActualizada => {
+			if (productoActualizada > 0) {
+				buscar.producto(req.params.id)
+					.then(producto => {
+						res.status(200).json(producto)
+					})
+			} else {
+				res.status(400).json({
+					status: 'Alerta',
+					msg: 'Producto no actualizada.'
+				})
+			}
+		})
+		.catch(err => {
+			res.status(400).json({
+				status: 'Alerta',
+				msg: 'Fallo al actualizar',
+				error: err
+			})
+		})
 }
 
 // DELETE single
 exports.eliminar = (req, res) => {
-	res.json(req)
+	db.productos.destroy({
+		where: {
+			idProducto: req.params.id
+		}
+	})
+		.then(productoEliminada => {
+			if (productoEliminada > 0) {
+				res.status(200).json({
+					status: 'success',
+					msg: 'Eliminación exitosa',
+					id: req.params.id
+				})
+			} else {
+				res.status(400).json({
+					status: 'error',
+					msg: 'No encontrado'
+				})
+			}
+		})
+		.catch(err => {
+			res.status(400).json({
+				status: 'error',
+				msg: 'Error al eliminar, verifica que no tenga dependencias',
+				error: {
+					name: err.name,
+					code: err.parent.code
+				}
+			})
+		})
 }

@@ -1,6 +1,11 @@
 <template lang="html">
 <div>
     <h3>Productos</h3>
+    <div class="container">
+        <router-link :to="{ name: 'NuevoProducto'}" class="btn btn-primary mb-2">
+            Nuevo
+        </router-link>
+    </div>
     <table class="table table-hover table-bordered table-sm shadow p-3 mb-5 bg-white rounded">
         <thead>
             <tr class="bg-secondary text-white text-center">
@@ -37,49 +42,44 @@
 
 <script>
 export default {
-    data() {
-        return {
-            productos: []
-        };
+  data() {
+    return {
+      productos: []
+    };
+  },
+  created() {
+    this.getProductos();
+  },
+  methods: {
+    getProductos() {
+      this.axios
+        .get("/productos")
+        .then(res => {
+          this.productos = res.data;
+        })
+        .catch(err => {
+          alert(err.response.data.msg);
+        });
     },
-    created() {
-        this.getProductos();
+    eliminarProducto(id, ind) {
+      const respuesta = confirm(
+        "Estas seguro que deseas eliminar este Producto?"
+      );
+      if (respuesta) {
+        this.axios
+          .delete("/productos/" + id)
+          .then(res => this.productos.splice(ind, 1))
+          .catch(err => alert(err.response.data.msg));
+      }
     },
-    methods: {
-        getProductos() {
-            this.axios
-                .get("/productos")
-                .then(res => {
-                  console.log(res.data)
-                    if (res.data.status == 'Alerta') {
-                        alert(res.data.msg)
-                    } else {
-                        this.productos = res.data
-                    }
-                })
-                .catch(err => console.log(err));
-        },
-        eliminarProducto(id, ind) {
-            const respuesta = confirm(
-                "Estas seguro que deseas eliminar este Producto?"
-            );
-            if (respuesta) {
-                this.axios
-                    .delete("/productos/" + id)
-                    .then(res => {
-                        this.productos.splice(ind, 1);
-                    })
-                    .catch(err => console.log(err));
-            }
-        },
-        editarProducto(id) {
-            this.$router.replace({
-                name: "EditarProducto",
-                params: {
-                    id: id
-                }
-            });
+    editarProducto(id) {
+      this.$router.replace({
+        name: "EditarProducto",
+        params: {
+          id: id
         }
+      });
     }
+  }
 };
 </script>

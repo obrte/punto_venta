@@ -38,49 +38,48 @@
 
 <script>
 export default {
-    data() {
-        return {
-            categorias: []
-        };
+  data() {
+    return {
+      categorias: []
+    };
+  },
+  created() {
+    this.getCategorias();
+  },
+  methods: {
+    getCategorias() {
+      this.axios
+        .get("/categorias")
+        .then(res => {
+          if (res.data.status == "Alerta") {
+            alert(res.data.msg);
+          } else {
+            this.categorias = res.data;
+          }
+        })
+        .catch(err => console.log(err, "ERROR"));
     },
-    created() {
-        this.getCategorias();
+    eliminarCategoria(id, ind) {
+      const respuesta = confirm(
+        "Estas seguro que deseas eliminar esta Categoria?"
+      );
+      if (respuesta) {
+        this.axios
+          .delete("/categorias/" + id)
+          .then(res => {
+            this.categorias.splice(ind, 1);
+          })
+          .catch(err => console.log(err));
+      }
     },
-    methods: {
-        getCategorias() {
-            this.axios
-                .get("/categorias")
-                .then(res => {
-                  console.log(res.data, 'RESP')
-                    if (res.data.status == 'Alerta') {
-                        alert(res.data.msg)
-                    } else {
-                        this.categorias = res.data
-                    }
-                })
-                .catch(err => console.log(err, 'ERROR'));
-        },
-        eliminarCategoria(id, ind) {
-            const respuesta = confirm(
-                "Estas seguro que deseas eliminar esta Categoria?"
-            );
-            if (respuesta) {
-                this.axios
-                    .delete("/categorias/" + id)
-                    .then(res => {
-                        this.categorias.splice(ind, 1);
-                    })
-                    .catch(err => console.log(err));
-            }
-        },
-        editarCategoria(id) {
-            this.$router.replace({
-                name: "EditarCategoria",
-                params: {
-                    id: id
-                }
-            });
+    editarCategoria(id) {
+      this.$router.replace({
+        name: "EditarCategoria",
+        params: {
+          id: id
         }
+      });
     }
+  }
 };
 </script>

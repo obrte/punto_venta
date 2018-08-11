@@ -3,7 +3,7 @@
  ! USANDO MySQL-Sequalize
 */
 const Sequelize = require('sequelize')
-const sequelize = new Sequelize('punto_venta', 'root', '12345678', {
+const sequelize = new Sequelize('punto_venta', 'root', '', {
 	host: 'localhost',
 	dialect: 'mysql',
 	operatorsAliases: false,
@@ -33,7 +33,13 @@ db.categorias = require('../models/Categorias')(sequelize, Sequelize)
 //  *!Relaciones
 //  **/
 // //! Producto//Categoria
-db.productos.belongsTo(db.categorias, { foreignKey: 'idCategoria', as: 'categoria' })
-db.categorias.hasMany(db.productos, { foreignKey: 'idCategoria', as: 'productos' })
+db.productos.belongsTo(db.categorias, {
+	foreignKey: 'idCategoria',
+	as: 'categoria'
+})
+db.categorias.hasMany(db.productos, {
+	foreignKey: 'idCategoria',
+	as: 'productos'
+})
 
 module.exports = db
