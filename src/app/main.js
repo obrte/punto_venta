@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
- 
+
 Vue.use(Vuetify)
 Vue.use(VueRouter)
 
@@ -16,6 +16,8 @@ import EditarProducto from './components/producto/EditarProducto.vue'
 import MostrarCategorias from './components/categoria/MostrarCategorias.vue'
 import NuevaCategoria from './components/categoria/NuevaCategoria.vue'
 import EditarCategoria from './components/categoria/EditarCategorias.vue'
+import Ncate from './components/categoria/Ncate.vue'
+import MCbk from './components/categoria/MCbk.vue'
 
 const routes = [{
 	name: 'MostrarProductos',
@@ -46,6 +48,16 @@ const routes = [{
 	name: 'EditarCategoria',
 	path: '/categorias/editar/:id',
 	component: EditarCategoria
+},
+{
+	name: 'Ncate',
+	path: '/ncate',
+	component: Ncate
+},
+{
+	name: 'MCbk',
+	path: '/mcbk',
+	component: MCbk
 }
 ]
 

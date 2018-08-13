@@ -1,8 +1,8 @@
 <template lang="html">
 <div>
-    <h4>Categorias</h4>
+    <h3>Categorias</h3>
     <div class="container">
-        <router-link :to="{ name: 'NuevaCategoria'}" class="btn btn-primary">
+        <router-link :to="{ name: 'NuevaCategoria'}" class="btn btn-primary mb-2">
             Nueva
         </router-link>
     </div>
@@ -35,27 +35,6 @@
             </tr>
         </tbody>
     </table>
-    <template>
-        <v-app id="modalAdd">
-            <v-btn fab bottom right color="pink" dark fixed @click.stop="dialog = !dialog">
-                <v-icon>add</v-icon>
-            </v-btn>
-            <v-dialog v-model="dialog" width="800px">
-                <v-card>
-                    <v-card-title class="grey lighten-4 py-4 title">
-                        Create contact
-                    </v-card-title>
-                    <router-view name="a"></router-view>
-                    <v-card-actions>
-                        <v-btn flat color="primary">More</v-btn>
-                        <v-spacer></v-spacer>
-                        <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
-                        <v-btn flat @click="dialog = false">Save</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
-        </v-app>
-    </template>
 </div>
 </template>
 
@@ -63,8 +42,6 @@
 export default {
   data() {
     return {
-      dialog: false,
-      drawer: null,
       categorias: []
     };
   },
