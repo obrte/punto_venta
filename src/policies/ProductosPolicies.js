@@ -8,6 +8,10 @@ const schema = {
 	nombre: Joi.string().required(),
 	descripcion: Joi.string().required(),
 	idCategoria: Joi.string().required(),
+	precio: Joi.number()
+		.positive()
+		.precision(2)
+		.required(),
 	stock: Joi.number().integer()
 }
 
@@ -17,6 +21,7 @@ const datosProducto = req => {
 		nombre: req.body.producto.nombre.toUpperCase().trim(),
 		descripcion: req.body.producto.descripcion.toUpperCase().trim(),
 		idCategoria: req.body.producto.idCategoria,
+		precio: req.body.producto.precio,
 		stock: req.body.producto.stock
 	}
 }

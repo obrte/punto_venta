@@ -12,6 +12,7 @@
                 <th class="border-dark">#</th>
                 <th class="border-dark">Nombre</th>
                 <th class="border-dark">Descripción</th>
+                <th class="border-dark">Productos</th>
                 <th class="border-dark">Acciones</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
                 <td class="text-center">{{index + 1}}</td>
                 <td>{{categoria.nombre}}</td>
                 <td class="text-justify">{{categoria.descripcion}}</td>
+                <td>{{categoria.productos.length}}</td>
                 <td>
                     <div class="row justify-content-center align-items-center mx-1">
                         <div class="d-flex">

@@ -51,6 +51,7 @@ exports.productos = (req, res) => {
 			]
 		})
 		.then(productos => {
+			console.log(productos.categoria)
 			if (productos.length > 0) {
 				res.status(200).json(productos)
 			} else {

@@ -1,33 +1,55 @@
 <template lang="html">
 <div>
     <form v-on:submit.prevent="crearProducto" class="card">
-        <div class="card-title">
+        <div class="card-title ml-4">
             <h1>Nuevo Producto</h1>
         </div>
         <div class="card-body">
-            <div class="form-group">
-                <select v-model="selected" class="form-control">
-                  <option v-for="categoria in categorias" v-bind:value="categoria.idCategoria">
-                    {{ categoria.nombre }}
-                  </option>
-                </select>
+            <div class="form-row">
+                <div class="col-md-3 mb-3">
+                    <label class="ml-3">Categoria</label>
+                    <select v-model="selected" class="form-control">
+                        <option v-for="categoria in categorias" v-bind:value="categoria.idCategoria">
+                            {{ categoria.nombre }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3 mx-1">
+                    <label class="ml-3">Codigo de barras</label>
+                    <input type="text" v-model="producto.codigo" placeholder="Codigo de barras 13 digitos" class="form-control">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="ml-3">Nombre</label>
+                    <input type="text" v-model="producto.nombre" placeholder="Nombre del producto" class="form-control">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="ml-3">Precio</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">$</div>
+                        </div>
+                        <input type="text" v-model="producto.precio" placeholder="precio" class="form-control">
+                    </div>
+                </div>
             </div>
-
             <div class="form-group">
-                <input type="text" v-model="producto.codigo" placeholder="Codigo de barras" class="form-control">
+                <label class="ml-3">Descripción</label>
+                <textarea type="text" v-model="producto.descripcion" placeholder="descripción del producto" class="form-control" />
             </div>
-            <div class="form-group">
-                <input type="text" v-model="producto.nombre" placeholder="Nombre del producto" class="form-control">
+            <div class="form-row">
+                <div class="col-md-2 mb-3 mx-1">
+                    <label class="ml-3">Stock</label>
+                    <input type="text" v-model="producto.stock" placeholder="stock de entrada" class="form-control">
+                </div>
             </div>
-            <div class="form-group">
-                <input type="text" v-model="producto.descripcion" placeholder="descripción del producto" class="form-control">
+            <div class="form-row">
+                <button type="submit" class="btn btn-primary">
+                        Crear
+                    </button>
+                <router-link :to="{ name: 'MostrarProductos'}" class="btn btn-danger ml-3">
+                    Cancelar
+                </router-link>
             </div>
-            <div class="form-group">
-                <input type="text" v-model="producto.stock" placeholder="stock de entrada" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-primary">
-                    Crear
-                </button>
         </div>
     </form>
 </div>
@@ -37,8 +59,7 @@
 export default {
     data() {
         return {
-            producto: {
-            },
+            producto: {},
             selected: "1",
             categorias: {}
         };
@@ -63,7 +84,7 @@ export default {
         },
         crearProducto() {
             if (this.selected == 1) {
-              alert('Debe seleccionar una categoria');
+                alert('Debe seleccionar una categoria');
             } else {
                 this.producto.idCategoria = this.selected;
                 this.axios

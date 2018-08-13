@@ -19,7 +19,8 @@
         "joi": "^13.5.2",
         "mysql2": "^1.6.1",
         "nodemon": "^1.17.5",
-        "sequelize": "^4.38.0"
+        "sequelize": "^4.38.0",
+        "vuetify": "^1.1.10"
     },
     "devDependencies": {
         "axios": "^0.18.0",
