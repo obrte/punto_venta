@@ -9,7 +9,7 @@
                     <div class="col-md-3 mb-3">
                         <label class="ml-3">Categoria</label>
                         <select v-model="selected" class="form-control">
-                            <option v-for="categoria in categorias" v-bind:value="categoria.idCategoria">
+                            <option v-for="categoria in categorias" v-bind:value="categoria.idCategoria" :key="categoria.idCategoria">
                                 {{ categoria.nombre }}
                             </option>
                         </select>
@@ -58,53 +58,54 @@
 
 <script>
 export default {
-    data() {
-        return {
-            producto: {},
-            selected: "1",
-            categorias: {}
-        };
+  data() {
+    return {
+      producto: {},
+      selected: "1",
+      categorias: {}
+    };
+  },
+  created() {
+    this.getProducto();
+    this.getCategorias();
+  },
+  methods: {
+    getCategorias() {
+      this.axios
+        .get("/categorias")
+        .then(res => {
+          this.categorias = res.data;
+        })
+        .catch(err => {
+          alert(err.response.data.msg);
+        });
     },
-    created() {
-        this.getProducto()
-        this.getCategorias()
+    getProducto() {
+      this.axios
+        .get("/productos/" + this.$route.params.id)
+        .then(res => {
+          this.producto = res.data;
+          this.selected = this.producto.idCategoria;
+        })
+        .catch(err => {
+          alert(err.response.data.msg);
+        });
     },
-    methods: {
-        getCategorias() {
-            this.axios
-                .get("/categorias")
-                .then(res => {
-                    this.categorias = res.data;
-                })
-                .catch(err => {
-                    alert(err.response.data.msg);
-                });
-        },
-        getProducto() {
-            this.axios.get("/productos/" + this.$route.params.id)
-                .then(res => {
-                    this.producto = res.data
-                    this.selected = this.producto.idCategoria
-                })
-                .catch(err => {
-                    alert(err.response.data.msg);
-                });
-        },
-        editar() {
-            this.producto.idCategoria = this.selected;
-            this.axios
-                .patch("/productos/" + this.$route.params.id, {
-                    producto: this.producto
-                })
-                .then(res => {
-                    this.$router.replace({
-                        name: "MostrarProductos"
-                    });
-                })
-                .catch(err => {
-                    alert(err.response.data.msg);
-                });
-        }
+    editar() {
+      this.producto.idCategoria = this.selected;
+      this.axios
+        .patch("/productos/" + this.$route.params.id, {
+          producto: this.producto
+        })
+        .then(res => {
+          this.$router.replace({
+            name: "MostrarProductos"
+          });
+        })
+        .catch(err => {
+          alert(err.response.data.msg);
+        });
     }
+  }
 };
 </script>

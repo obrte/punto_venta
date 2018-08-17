@@ -10,54 +10,18 @@ import axios from 'axios'
 Vue.use(VueAxios, axios)
 
 import App from './App.vue'
-import MostrarProductos from './components/producto/MostrarProducto.vue'
-import NuevoProducto from './components/producto/NuevoProducto.vue'
-import EditarProducto from './components/producto/EditarProducto.vue'
-import MostrarCategorias from './components/categoria/MostrarCategorias.vue'
-import NuevaCategoria from './components/categoria/NuevaCategoria.vue'
-import EditarCategoria from './components/categoria/EditarCategorias.vue'
-import Ncate from './components/categoria/Ncate.vue'
-import MCbk from './components/categoria/MCbk.vue'
+import Productos from './components/Productos.vue'
+import Categorias from './components/Categorias.vue'
 
 const routes = [{
-	name: 'MostrarProductos',
+	name: 'Productos',
 	path: '/productos',
-	component: MostrarProductos
+	component: Productos
 },
 {
-	name: 'NuevoProducto',
-	path: '/productos/crear',
-	component: NuevoProducto
-},
-{
-	name: 'EditarProducto',
-	path: '/productos/editar/:id',
-	component: EditarProducto
-},
-{
-	name: 'MostrarCategorias',
+	name: 'Categorias',
 	path: '/categorias',
-	component: MostrarCategorias
-},
-{
-	name: 'NuevaCategoria',
-	path: '/categorias/crear',
-	component: NuevaCategoria
-},
-{
-	name: 'EditarCategoria',
-	path: '/categorias/editar/:id',
-	component: EditarCategoria
-},
-{
-	name: 'Ncate',
-	path: '/ncate',
-	component: Ncate
-},
-{
-	name: 'MCbk',
-	path: '/mcbk',
-	component: MCbk
+	component: Categorias
 }
 ]
 

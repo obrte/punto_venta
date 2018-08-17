@@ -24,8 +24,7 @@
                         </v-list-tile-content>
                     </v-list-tile>
                     <!-- OPCIONES -->
-                    <!-- <v-list-tile v-for="(child, i) in item.children" :key="i" @click=""> -->
-                    <v-list-tile v-for="(child, i) in item.children" :key="i">
+                    <v-list-tile v-for="(child, i) in item.children" :key="i" :to="child.link">
                         <v-list-tile-action v-if="child.icon">
                             <v-icon>{{ child.icon }}</v-icon>
                         </v-list-tile-action>
@@ -53,12 +52,12 @@
         </v-list>
     </v-navigation-drawer>
     <!-- INICIO BARRA SUPERIOR -->
-    <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="red darken-4" dark app fixed>
+    <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="grey darken-3" dark app fixed>
         <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
             <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-            <span class="hidden-sm-and-down">Papelería SIDUR</span>
+            <span class="hidden-sm-and-down">Punto de Venta</span>
         </v-toolbar-title>
-        <v-text-field flat solo-inverted hide-details prepend-inner-icon="search" label="Search" class="hidden-sm-and-down"></v-text-field>
+        <!-- <v-text-field flat solo-inverted hide-details prepend-inner-icon="search" label="Search" class="hidden-sm-and-down"></v-text-field> -->
         <v-spacer></v-spacer>
         <v-btn icon>
             <v-icon>apps</v-icon>
@@ -66,21 +65,13 @@
         <v-btn icon>
             <v-icon>notifications</v-icon>
         </v-btn>
-        <v-btn icon large>
-            <v-avatar size="32px" tile>
-                <img src="https://cdn.vuetifyjs.com/images/logos/logo.svg" alt="Vuetify">
-            </v-avatar>
+        <v-btn icon color="deep-orange">
+            <v-icon>child_care</v-icon>
         </v-btn>
     </v-toolbar>
     <!-- FIN BARRA SUPERIOR -->
     <v-content>
-        <!-- <v-container fluid fill-height>
-            <v-layout justify-center align-center>
-                <transition name="fade"> -->
-                    <router-view></router-view>
-                <!-- </transition>
-            </v-layout>
-        </v-container> -->
+        <router-view></router-view>
     </v-content>
 </v-app>
 </template>
@@ -93,21 +84,18 @@ export default {
     test: "CatalogoS",
     items: [
       {
-        icon: "blur_circular",
+        icon: "airline_seat_recline_extra",
+        "icon-alt": "airline_seat_recline_normal",
         text: "Catalogos",
-        link: "categorias"
-      },
-      {
-        icon: "keyboard_arrow_up",
-        "icon-alt": "keyboard_arrow_down",
-        text: "More",
         model: false,
         children: [
           {
-            text: "Import"
+            text: "Categorias",
+            link: "categorias"
           },
           {
-            text: "Export"
+            text: "Productos",
+            link: "productos"
           }
         ]
       },
