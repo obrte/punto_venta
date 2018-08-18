@@ -67,7 +67,7 @@
                             <div class="row justify-content-center align-items-center mx-1">
                                 <div class="d-flex">
                                     <!-- Boton Eliminar -->
-                                    <i class="fas fa-times-circle btn btn-danger mx-1" title="Eliminar Producto" @click="eliminarProducto(producto.codigo, index)" />
+                                    <i class="fas fa-times-circle btn btn-danger mx-1" title="Eliminar Producto" @click="eliminar(producto.codigo, index)" />
                                     <!-- Boton Editar -->
                                     <i class="fas fa-edit btn btn-info" title="Editar Producto" @click="editarId(producto.codigo)" />
                                 </div>

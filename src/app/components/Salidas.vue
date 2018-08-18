@@ -180,6 +180,7 @@ export default {
                         total: res.data.precio * this.cantidad
                     });
                     this.agregar = ""
+                    this.cantidad = "1"
                 })
                 .catch(err => alert('Articulo no registrado.'))
         },
@@ -190,9 +191,15 @@ export default {
             if (this.efectivo < this.granTotal) {
                 alert('Efectivo insuficiente')
             } else {
-                var ficha = this.$refs['imprimir'];
+                var ticket = this.$refs['imprimir'];
+                ticket.style.marginRight = "0";
+                ticket.style.marginTop = "0";
+                ticket.style.marginLeft = "0";
+                ticket.style.marginBottom = "0";
+                
+
                 var ventimp = window.open(' ', 'popimpr');
-                ventimp.document.write(ficha.innerHTML);
+                ventimp.document.write(ticket.innerHTML);
                 ventimp.document.close();
                 ventimp.print();
                 ventimp.close();
