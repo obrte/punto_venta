@@ -15,6 +15,9 @@
                 </v-flex>
             </v-layout>
         </v-flex>
+        <v-btn fab color="deep-orange" dark fixed @click.stop="dialog = !dialog" class="m-2">
+            <v-icon>local_atm</v-icon>
+        </v-btn>
         <v-container>
             <table class="table table-hover table-bordered table-sm shadow p-3 mb-5 bg-white rounded">
                 <thead>
@@ -46,9 +49,7 @@
                 </tbody>
             </table>
         </v-container>
-        <v-btn fab color="deep-orange" dark fixed @click.stop="dialog = !dialog" class="m-2">
-            <v-icon>local_atm</v-icon>
-        </v-btn>
+
         <v-dialog v-model="dialog" width="500px" ref="form">
             <v-card>
                 <v-card-title class="grey lighten-4 py-4 title">
@@ -75,25 +76,21 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-container ref="imprimir">
+        <v-container ref="imprimir" class="ticket invisible" style="height:200px;">
             <h3 class="display-3 invisible">TICKET</h3>
-            <table class="table table-hover table-bordered table-sm shadow p-3 mb-5 bg-white rounded invisible">
+            <table>
                 <thead>
-                    <tr class="bg-secondary text-white text-center">
-                        <th class="border-dark">#</th>
-                        <th class="border-dark">Articulo</th>
-                        <th class="border-dark">Cantidad</th>
-                        <th class="border-dark">Precio</th>
-                        <th class="border-dark">Total</th>
+                    <tr>
+                        <th class="cantidad">CANT</th>
+                        <th class="producto">PRODUCTO</th>
+                        <th class="precio">$</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(articulo, index) in carrito">
-                        <td>{{index + 1}}</td>
-                        <td>{{articulo.nombre}}</td>
-                        <td>{{articulo.cantidad}}</td>
-                        <td>{{"$" + articulo.precioUnitario}}</td>
-                        <td>{{"$" + articulo.total}}</td>
+                        <td class="producto">{{articulo.cantidad}}</td>
+                        <td class="cantidad">{{articulo.nombre}}</td>
+                        <td class="precio">{{"$" + articulo.precioUnitario}}</td>
                     </tr>
                     <tr>
                         <td>Total: ${{ granTotal }}</td>
@@ -105,7 +102,6 @@
                         <td>Cambio: ${{ cambio }}</td>
                     </tr>
                 </tbody>
-
             </table>
         </v-container>
     </div>
@@ -192,11 +188,6 @@ export default {
                 alert('Efectivo insuficiente')
             } else {
                 var ticket = this.$refs['imprimir'];
-                ticket.style.marginRight = "0";
-                ticket.style.marginTop = "0";
-                ticket.style.marginLeft = "0";
-                ticket.style.marginBottom = "0";
-                
 
                 var ventimp = window.open(' ', 'popimpr');
                 ventimp.document.write(ticket.innerHTML);
