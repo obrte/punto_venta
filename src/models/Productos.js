@@ -1,7 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
 	const productos = sequelize.define(
-		'productos',
-		{
+		'productos', {
 			codigo: {
 				type: DataTypes.STRING(13),
 				unique: true,
@@ -9,8 +8,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			nombre: {
 				type: DataTypes.STRING(100),
-				allowNull: false,
-				unique: true
+				allowNull: false
 			},
 			descripcion: {
 				type: DataTypes.STRING(255),
@@ -29,8 +27,7 @@ module.exports = (sequelize, DataTypes) => {
 			// Timestamps
 			created_at: DataTypes.DATE,
 			updated_at: DataTypes.DATE
-		},
-		{
+		}, {
 			paranoid: false,
 			underscored: true
 		}

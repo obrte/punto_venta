@@ -29,20 +29,21 @@ const datosProducto = req => {
 exports.guardar = (req, res, next) => {
 	const producto = datosProducto(req)
 	req.producto = producto
-	const { error } = Joi.validate(producto, schema)
+	const {
+		error
+	} = Joi.validate(producto, schema)
 	if (error) {
 		mensajes.switchError(error, res)
 	} else {
 		db.productos
 			.findOne({
 				where: {
-					[Op.or]: [
-						{
-							codigo: producto.codigo
-						},
-						{
-							descripcion: producto.descripcion
-						}
+					[Op.or]: [{
+						codigo: producto.codigo
+					},
+					{
+						descripcion: producto.descripcion
+					}
 					]
 				}
 			})
@@ -62,23 +63,24 @@ exports.guardar = (req, res, next) => {
 exports.actualizar = (req, res, next) => {
 	const producto = datosProducto(req)
 	req.producto = producto
-	const { error } = Joi.validate(producto, schema)
+	const {
+		error
+	} = Joi.validate(producto, schema)
 	if (error) {
 		mensajes.switchError(error, res)
 	} else {
 		db.productos
 			.findOne({
 				where: {
-					[Op.or]: [
-						{
-							codigo: producto.codigo
-						},
-						{
-							descripcion: producto.descripcion
-						}
+					[Op.or]: [{
+						codigo: producto.codigo
+					},
+					{
+						descripcion: producto.descripcion
+					}
 					],
-					descripcion: {
-						[Op.ne]: producto.descripcion
+					codigo: {
+						[Op.ne]: req.params.id
 					}
 				}
 			})

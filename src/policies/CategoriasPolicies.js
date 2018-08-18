@@ -17,7 +17,9 @@ const datosCategoria = req => {
 
 exports.guardar = (req, res, next) => {
 	const categoria = datosCategoria(req)
-	const { error } = Joi.validate(categoria, schema)
+	const {
+		error
+	} = Joi.validate(categoria, schema)
 	if (error) {
 		mensajes.switchError(error, res)
 	} else {
@@ -42,7 +44,9 @@ exports.guardar = (req, res, next) => {
 
 exports.actualizar = (req, res, next) => {
 	const categoria = datosCategoria(req)
-	const { error } = Joi.validate(categoria, schema)
+	const {
+		error
+	} = Joi.validate(categoria, schema)
 	if (error) {
 		mensajes.switchError(error, res)
 	} else {
@@ -52,7 +56,7 @@ exports.actualizar = (req, res, next) => {
 					nombre: categoria.nombre,
 					descripcion: categoria.descripcion,
 					idCategoria: {
-						[Op.ne]: categoria.idCategoria
+						[Op.ne]: req.params.id
 					}
 				}
 			})

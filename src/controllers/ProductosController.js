@@ -42,16 +42,13 @@ exports.producto = (req, res) => {
 exports.productos = (req, res) => {
 	db.productos
 		.findAll({
-			include: [
-				{
-					model: db.categorias,
-					attributes: ['idCategoria', 'nombre', 'descripcion'],
-					as: 'categoria'
-				}
-			]
+			include: [{
+				model: db.categorias,
+				attributes: ['idCategoria', 'nombre', 'descripcion'],
+				as: 'categoria'
+			}]
 		})
 		.then(productos => {
-			console.log(productos.categoria)
 			if (productos.length > 0) {
 				res.status(200).json(productos)
 			} else {
@@ -68,7 +65,6 @@ exports.productos = (req, res) => {
 
 // PATCH single
 exports.actualizar = (req, res) => {
-	console.log(req.producto)
 	db.productos
 		.update(req.producto, {
 			where: {

@@ -100,9 +100,9 @@ export default {
         ]
       },
       {
-        icon: "settings",
-        text: "Test",
-        link: "Ncate"
+        icon: "local_grocery_store",
+        text: "Tienda",
+        link: "salidas"
       }
     ]
   }),

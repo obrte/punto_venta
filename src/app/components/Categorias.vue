@@ -22,7 +22,7 @@
                 <v-card-actions>
                     <v-btn flat color="red" @click="cancelar()">Cancelar</v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn flat color="green" @click="nuevo ? crearCategoria() : editar()">Guardar</v-btn>
+                    <v-btn flat color="green" @click="nuevo ? guardar() : editar()">Guardar</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -48,9 +48,9 @@
                             <div class="row justify-content-center align-items-center mx-1">
                                 <div class="d-flex">
                                     <!-- Boton Eliminar -->
-                                    <i class="fas fa-times-circle btn btn-danger mx-1" title="Eliminar Producto" @click="eliminarCategoria(categoria.idCategoria, index)" />
+                                    <i class="fas fa-times-circle btn btn-danger mx-1" title="Eliminar Producto" @click="eliminar(categoria.idCategoria, index)" />
                                     <!-- Boton Editar -->
-                                    <i class="fas fa-edit btn btn-info" title="Editar Producto" @click="editarCategoria(categoria.idCategoria)" />
+                                    <i class="fas fa-edit btn btn-info" title="Editar Producto" @click="editarId(categoria.idCategoria)" />
                                 </div>
                             </div>
                         </td>
@@ -70,14 +70,14 @@ export default {
       drawer: null,
       nuevo: true,
       categorias: [],
-      categoria: []
+      categoria: {}
     };
   },
   watch: {
     dialog: function() {
       if (!this.dialog) {
         this.nuevo = true;
-        this.categoria = [];
+        this.categoria = {};
       }
     }
   },
@@ -95,21 +95,20 @@ export default {
           alert(err.response.data.msg);
         });
     },
-    crearCategoria() {
+    guardar() {
       this.axios
         .post("/categorias", {
           categoria: this.categoria
         })
         .then(res => {
-          this.$router.replace({
-            name: "MostrarCategorias"
-          });
           this.dialog = false;
           this.getCategorias();
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          console.log(err);
+        });
     },
-    eliminarCategoria(id, ind) {
+    eliminar(id, ind) {
       const respuesta = confirm(
         "Estas seguro que deseas eliminar esta Categoria?"
       );
@@ -122,7 +121,7 @@ export default {
           .catch(err => console.log(err));
       }
     },
-    editarCategoria(id) {
+    editarId(id) {
       this.axios.get("/categorias/" + id).then(res => {
         this.categoria = res.data;
         this.dialog = true;
