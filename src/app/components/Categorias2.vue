@@ -28,36 +28,35 @@
         </v-dialog>
 
         <v-container class="mt-5">
-            <template>
-                <v-card>
-                    <v-card-title>
-                        Categorias
-                        <v-spacer></v-spacer>
-                        <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
-                    </v-card-title>
-                    <v-data-table :headers="headersCategoria" :items="categorias" hide-actions class="elevation-1" :search="search">
-                        <template slot="items" slot-scope="props">
-                            <td>{{ props.item.numero }}</td>
-                            <td class="text-xs-left">{{ props.item.nombre }}</td>
-                            <td class="text-xs-left">{{ props.item.descripcion }}</td>
-                            <td class="text-xs-center">{{ props.item.productos.length }}</td>
-                            <td class="justify-center layout px-0">
-                                <v-icon color="teal" class="mr-4" @click="editarId(categoria.idCategoria)">edit</v-icon>
-                                <v-icon color="red" @click="eliminar(categoria.idCategoria, index)">delete</v-icon>
-                            </td>
-                        </template>
-                        <v-alert slot="no-results" :value="true" color="error" icon="warning">
-                            Your search for "{{ search }}" found no results.
-                        </v-alert>
-                        <template slot="no-data">
-                            <v-alert :value="true" color="warning" icon="warning">
-                                No hay datos
-                            </v-alert>
-                        </template>
-                    </v-data-table>
-                </v-card>
-            </template>
-
+            <table class="table table-hover table-bordered table-sm shadow p-3 mb-5 bg-white rounded">
+                <thead>
+                    <tr class="bg-secondary text-white text-center">
+                        <th class="border-dark">#</th>
+                        <th class="border-dark">Nombre</th>
+                        <th class="border-dark">Descripción</th>
+                        <th class="border-dark">Productos</th>
+                        <th class="border-dark">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(categoria, index) in categorias">
+                        <td class="text-center">{{index + 1}}</td>
+                        <td>{{categoria.nombre}}</td>
+                        <td class="text-justify">{{categoria.descripcion}}</td>
+                        <td>{{categoria.productos.length}}</td>
+                        <td>
+                            <div class="row justify-content-center align-items-center mx-1">
+                                <div class="d-flex">
+                                    <!-- Boton Eliminar -->
+                                    <i class="fas fa-times-circle btn btn-danger mx-1" title="Eliminar Producto" @click="eliminar(categoria.idCategoria, index)" />
+                                    <!-- Boton Editar -->
+                                    <i class="fas fa-edit btn btn-info" title="Editar Producto" @click="editarId(categoria.idCategoria)" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </v-container>
     </div>
 </v-app>
@@ -70,40 +69,8 @@ export default {
       dialog: false,
       drawer: null,
       nuevo: true,
-      search: "",
       categorias: [],
-      categoria: {},
-      headersCategoria: [
-        {
-          text: "#",
-          align: "left",
-          value: "numero"
-        },
-        {
-          text: "Nombre",
-          align: "left",
-          sortable: false,
-          value: "nombre"
-        },
-        {
-          text: "Descripción",
-          align: "left",
-          sortable: false,
-          value: "descripcion"
-        },
-        {
-          text: "Productos",
-          align: "center",
-          sortable: false,
-          value: "productos"
-        },
-        {
-          text: "Acciones",
-          align: "center",
-          sortable: false,
-          value: "acciones"
-        }
-      ]
+      categoria: {}
     };
   },
   watch: {
