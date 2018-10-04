@@ -33,7 +33,7 @@ const switchError = (error, res) => {
 	case 'descripcion':
 		res.status(400).json({
 			status: 'Alerta',
-			msg: 'Debe introducir un nombre corto.'
+			msg: 'Debe introducir una descripción.'
 		})
 		break
 	case 'idCategoria':

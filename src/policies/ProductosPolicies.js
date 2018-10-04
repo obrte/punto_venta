@@ -4,22 +4,19 @@ const Op = db.Sequelize.Op
 const mensajes = require('../customFunctions/Mensajes')
 
 const schema = {
-	codigo: Joi.string().required(),
+	codigo: Joi.number().required(),
 	nombre: Joi.string().required(),
 	descripcion: Joi.string().required(),
 	idCategoria: Joi.string().required(),
-	precio: Joi.number()
-		.positive()
-		.precision(2)
-		.required(),
+	precio: Joi.number().positive().precision(2).required(),
 	stock: Joi.number().integer()
 }
 
 const datosProducto = req => {
 	return {
-		codigo: req.body.producto.codigo.toUpperCase().trim(),
-		nombre: req.body.producto.nombre.toUpperCase().trim(),
-		descripcion: req.body.producto.descripcion.toUpperCase().trim(),
+		codigo: req.body.producto.codigo,
+		nombre: req.body.producto.nombre,
+		descripcion: req.body.producto.descripcion,
 		idCategoria: req.body.producto.idCategoria,
 		precio: req.body.producto.precio,
 		stock: req.body.producto.stock
@@ -28,25 +25,27 @@ const datosProducto = req => {
 
 exports.guardar = (req, res, next) => {
 	const producto = datosProducto(req)
-	req.producto = producto
+
 	const {
 		error
 	} = Joi.validate(producto, schema)
 	if (error) {
 		mensajes.switchError(error, res)
 	} else {
-		db.productos
-			.findOne({
-				where: {
-					[Op.or]: [{
-						codigo: producto.codigo
-					},
-					{
-						descripcion: producto.descripcion
-					}
-					]
+		producto.nombre = producto.nombre.toUpperCase().trim()
+		producto.descripcion = producto.descripcion.toUpperCase().trim()
+		req.producto = producto
+		db.productos.findOne({
+			where: {
+				[Op.or]: [{
+					codigo: producto.codigo
+				},
+				{
+					descripcion: producto.descripcion
 				}
-			})
+				]
+			}
+		})
 			.then(conflictoProducto => {
 				if (conflictoProducto) {
 					res.status(400).json({

@@ -70,6 +70,9 @@
     <v-content>
         <router-view></router-view>
     </v-content>
+    <v-footer app fixed color="grey lighten-2">
+        <span class="pl-5 font-weight-bold">&copy; 2018 Bracamonte</span>
+    </v-footer>
 </v-app>
 </template>
 
@@ -111,7 +114,9 @@ export default {
   },
   methods: {
     ruta(ruta) {
-      this.$router.replace({ name: ruta });
+      this.$router.replace({
+        name: ruta
+      });
     }
   },
   props: {

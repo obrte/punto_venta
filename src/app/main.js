@@ -10,7 +10,7 @@ import axios from 'axios'
 Vue.use(VueAxios, axios)
 
 import App from './App.vue'
-import Productos from './components/Productos2.vue'
+import Productos from './components/Productos.vue'
 import Categorias from './components/Categorias.vue'
 import Salidas from './components/Salidas2.vue'
 
