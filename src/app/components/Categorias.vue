@@ -12,7 +12,9 @@
                             </v-btn>
                         </v-flex>
                         <v-spacer></v-spacer>
-                        <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
+                        <v-flex xs6 sm3 md3>
+                            <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
+                        </v-flex>
                     </v-card-title>
                     <v-data-table :headers="headersCategoria" :items="categorias" hide-actions :search="search">
                         <template slot="items" slot-scope="props">

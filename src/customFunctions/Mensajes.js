@@ -49,9 +49,15 @@ const switchError = (error, res) => {
 		})
 		break
 	default:
+		var alerta
+		if (error.details[0].context.label == 'value') {
+			alerta = 'debe proporcionar porlomenos un articulo'
+		} else {
+			alerta = 'No se encontraron un caso para este error.'
+		}
 		res.status(500).json({
 			status: 'error',
-			msg: 'No se encontraron un caso para este error.'
+			msg: alerta
 		})
 		break
 	}

@@ -7,13 +7,11 @@ const categoria = id => {
 				where: {
 					idCategoria: id
 				},
-				include: [
-					{
-						model: db.productos,
-						attributes: ['nombre', 'descripcion'],
-						as: 'productos'
-					}
-				]
+				include: [{
+					model: db.productos,
+					attributes: ['nombre', 'descripcion'],
+					as: 'productos'
+				}]
 			})
 			.then(categoria => {
 				resolve(categoria)
@@ -29,13 +27,11 @@ const producto = id => {
 				where: {
 					codigo: id
 				},
-				include: [
-					{
-						model: db.categorias,
-						attributes: ['idCategoria', 'nombre', 'descripcion'],
-						as: 'categoria'
-					}
-				]
+				include: [{
+					model: db.categorias,
+					attributes: ['idCategoria', 'nombre', 'descripcion'],
+					as: 'categoria'
+				}]
 			})
 			.then(productos => {
 				resolve(productos)

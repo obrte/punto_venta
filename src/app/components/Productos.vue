@@ -13,7 +13,9 @@
                             </v-btn>
                         </v-flex>
                         <v-spacer></v-spacer>
-                        <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
+                        <v-flex xs6 sm3 md3>
+                            <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
+                        </v-flex>
                     </v-card-title>
                     <v-data-table :headers="headersProducto" :items="productos" hide-actions :search="search">
                         <template slot="items" slot-scope="props">
@@ -266,17 +268,17 @@ export default {
           });
       }
     },
-    modalEliminar(id) {
+    modalEliminar(id, ind) {
       this.eliminarId = id;
       this.dialogEliminar = true;
     },
-    eliminar(id) {
+    eliminar(respuesta) {
       this.dialogEliminar = false;
       if (respuesta) {
         this.axios
           .delete("/productos/" + this.eliminarId)
           .then(res => {
-            this.getCategorias();
+            this.getProductos();
             this.eliminarId = "";
             this.mensaje = "Eliminación exitosa";
             this.colorSnack = "red darken-4";

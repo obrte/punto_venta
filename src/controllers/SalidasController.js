@@ -2,24 +2,53 @@ const db = require('../config/db')
 const buscar = require('../customFunctions/Buscar')
 
 //POST single
-exports.guardar = (req, res) => {
-	console.log(req.producto)
-	db.productos
-		.create(req.producto)
-		.then(producto => {
-			res.status(201).json(producto)
+exports.salida = (req, res) => {
+	var cont = 0
+	req.salida.forEach(element => {
+		db.productos.find({
+			where: {
+				codigo: element.codigo
+			}
 		})
-		.catch(err => {
-			console.log(err.parent.sqlMessage)
-			res.status(400).json({
-				status: 'error',
-				msg: 'Error al crear',
-				error: {
-					name: err.name,
-					code: err.parent.code
-				}
+			.then(producto => {
+				db.productos.update({
+					stock: producto.stock - element.cantidad
+				}, {
+					where: {
+						codigo: element.codigo
+					}
+				})
+					.then(productoRestado => {
+						cont += productoRestado
+						if (cont == req.salida.length) {
+							res.status(200).json({
+								status: 'success',
+								msg: 'Salida Correcta',
+							})
+						}
+					})
+					.catch(err => {
+						res.status(400).json({
+							status: 'error',
+							msg: 'Error al crear',
+							error: {
+								name: err.name,
+								code: err.parent.code
+							}
+						})
+					})
 			})
-		})
+			.catch(err => {
+				res.status(400).json({
+					status: 'error',
+					msg: 'Error al crear',
+					error: {
+						name: err.name,
+						code: err.parent.code
+					}
+				})
+			})
+	})
 }
 
 // GET one por id
@@ -39,14 +68,13 @@ exports.producto = (req, res) => {
 
 // GET all con TODO
 exports.productos = (req, res) => {
-	db.productos
-		.findAll({
-			include: [{
-				model: db.categorias,
-				attributes: ['idCategoria', 'nombre', 'descripcion'],
-				as: 'categoria'
-			}]
-		})
+	db.productos.findAll({
+		include: [{
+			model: db.categorias,
+			attributes: ['idCategoria', 'nombre', 'descripcion'],
+			as: 'categoria'
+		}]
+	})
 		.then(productos => {
 			if (productos.length > 0) {
 				res.status(200).json(productos)
@@ -64,12 +92,11 @@ exports.productos = (req, res) => {
 
 // PATCH single
 exports.actualizar = (req, res) => {
-	db.productos
-		.update(req.producto, {
-			where: {
-				codigo: req.params.id
-			}
-		})
+	db.productos.update(req.producto, {
+		where: {
+			codigo: req.params.id
+		}
+	})
 		.then(productoActualizada => {
 			if (productoActualizada > 0) {
 				buscar.producto(req.params.id).then(producto => {
@@ -95,7 +122,7 @@ exports.actualizar = (req, res) => {
 exports.eliminar = (req, res) => {
 	db.productos.destroy({
 		where: {
-			codigo: req.params.id
+			idProducto: req.params.id
 		}
 	})
 		.then(productoEliminada => {
