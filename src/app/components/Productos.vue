@@ -1,5 +1,5 @@
 <template lang="html">
-<v-app id="mostrarProd">
+<!-- <v-app id="mostrarProd"> -->
     <div>
 
         <v-container class="mt-2">
@@ -112,7 +112,7 @@
         </template>
 
     </div>
-</v-app>
+<!-- </v-app> -->
 </template>
 
 <script>

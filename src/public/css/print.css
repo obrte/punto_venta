@@ -1,42 +1,48 @@
-@media print {
-  table {
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 600px;
-  }
+table.impcss {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 600px;
+}
 
-  td,
-  th {
-    border: 1px solid #616161;
-    padding: 8px;
-    text-align: center;
-  }
+td.titulo,
+th.titulo {
+  border: 1px solid #616161;
+  padding: 8px;
+  text-align: center;
+}
 
-  td.numero,
-  th.numero {
-    border: 1px solid #616161;
-    padding: 8px;
-    text-align: center;
-    width: 30px;
-  }
+td.numero,
+th.numero {
+  border: 1px solid #616161;
+  padding: 8px;
+  text-align: center;
+  width: 30px;
+}
 
-  td.cantidad,
-  th.cantidad {
-    border: 1px solid #616161;
-    padding: 8px;
-    text-align: center;
-    width: 40px;
-  }
+td.cantidad,
+th.cantidad {
+  border: 1px solid #616161;
+  padding: 8px;
+  text-align: center;
+  width: 40px;
+}
 
-  tr:nth-child(even) {
-    background-color: #EEEEEE;
-  }
+td.nombre,
+th.nombre {
+  border: 1px solid #616161;
+  padding: 8px;
+  text-align: center;
+  width: 40px;
+}
 
-  th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: center;
-    background: #BDBDBD;
-    font-weight: bold;
-  }
+tr.renglon:nth-child(even) {
+  background-color: #EEEEEE;
+}
+
+th.titulo-imp {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background: #BDBDBD;
+  font-weight: bold;
 }

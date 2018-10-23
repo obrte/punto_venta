@@ -1,77 +1,37 @@
 <template>
 <v-app id="inspire">
-    <v-navigation-drawer :clipped="$vuetify.breakpoint.lgAndUp" v-model="drawer" fixed app>
+    <v-navigation-drawer clipped fixed v-model="drawer" app>
         <v-list dense>
-            <template v-for="item in items">
-                <v-layout v-if="item.heading" :key="item.heading" row align-center>
-                    <v-flex xs6>
-                        <v-subheader v-if="item.heading">
-                            {{ item.heading }}
-                        </v-subheader>
-                    </v-flex>
-                    <v-flex xs6 class="text-xs-center">
-                        <a href="#!" class="body-2 black--text">EDIT</a>
-                    </v-flex>
-                </v-layout>
-                <!-- INICIO MENU PLEGABLE -->
-                <v-list-group v-else-if="item.children" v-model="item.model" :key="item.text" :prepend-icon="item.model ? item.icon : item['icon-alt']" append-icon="">
-                    <!-- PLEGABLE -->
-                    <v-list-tile slot="activator">
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                {{ item.text }}
-                            </v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                    <!-- OPCIONES -->
-                    <v-list-tile v-for="(child, i) in item.children" :key="i" @click="ruta(child.link)">
-                        <v-list-tile-action v-if="child.icon">
-                            <v-icon>{{ child.icon }}</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                {{ child.text }}
-                            </v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </v-list-group>
-                <!-- FIN MENU PLEGABLE -->
-                <!-- INICIO LISTADO MENU -->
-                <v-list-tile v-else :key="item.text" @click="ruta(item.link)">
-                    <v-list-tile-action>
-                        <v-icon>{{ item.icon }}</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>
-                            {{ item.text }}
-                        </v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-                <!-- FIN LISTADO MENU -->
-            </template>
+            <v-list-tile @click="ruta('Test')">
+                <v-list-tile-action>
+                    <v-icon large color="deep-orange">forward</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                    <v-list-tile-title>Categorias</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
         </v-list>
     </v-navigation-drawer>
-    <!-- INICIO BARRA SUPERIOR -->
-    <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="red darken-4" dark app fixed>
-        <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-            <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-            <span class="hidden-sm-and-down">Almacén SIDUR</span>
-        </v-toolbar-title>
-        <!-- <v-text-field flat solo-inverted hide-details prepend-inner-icon="search" label="Search" class="hidden-sm-and-down"></v-text-field> -->
+    <v-toolbar app fixed clipped-left>
+        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+        <v-toolbar-title v-if="windowSize.w > 800">Menu</v-toolbar-title>
+        <v-divider class="mx-3 pr-5" inset vertical v-if="windowSize.w > 800"></v-divider>
+        <v-flex sm4 md3 pl-2 ml-2 v-if="windowSize.w > 700">
+            <v-toolbar-title>Metodos Númericos</v-toolbar-title>
+        </v-flex>
+        <v-toolbar-title v-text="'METODO'"></v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon>
-            <v-icon>apps</v-icon>
+        <span>Restaurar</span>
+        <v-btn icon color="pink darken-4">
+            <v-icon>refresh</v-icon>
         </v-btn>
-        <v-btn icon>
-            <v-icon>notifications</v-icon>
-        </v-btn>
+
     </v-toolbar>
-    <!-- FIN BARRA SUPERIOR -->
     <v-content>
-        <router-view></router-view>
+            <router-view></router-view>
     </v-content>
-    <v-footer app fixed color="grey lighten-2">
-        <span class="pl-5 font-weight-bold">&copy; 2018 Bracamonte</span>
+    <v-footer app fixed>
+        <span>&copy; 2018 Bracamonte</span>
     </v-footer>
 </v-app>
 </template>
@@ -81,8 +41,11 @@ export default {
   data: () => ({
     dialog: false,
     menu: "",
-    drawer: null,
-    test: "CatalogoS",
+    windowSize: {
+      w: 0,
+      h: 0
+    },
+    drawer: true,
     items: [
       {
         icon: "airline_seat_recline_extra",
@@ -117,6 +80,12 @@ export default {
       this.$router.replace({
         name: ruta
       });
+    },
+    onResize() {
+      this.windowSize = {
+        w: window.innerWidth,
+        h: window.innerHeight
+      };
     }
   },
   props: {
